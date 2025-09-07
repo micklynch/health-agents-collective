@@ -1,0 +1,17 @@
+[project]
+name = "health-agents-collective"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "a2a-sdk>=0.3.0",
+    "asyncpg>=0.30.0",
+    "fastmcp>=2.11.1",
+    "google-adk>=1.9.0",
+    "logfire[httpx]>=4.1.0",
+    "pydantic-ai>=0.4.11",
+    "pydantic-ai-slim[a2a,google,logfire,mcp]>=0.4.11",
+    "python-dotenv>=1.1.1",
+    "requests>=2.32.4",
+]

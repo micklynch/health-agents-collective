@@ -1,0 +1,321 @@
+# Python-generated files
+__pycache__/
+*.py[oc]
+build/
+dist/
+wheels/
+*.egg-info
+
+# Virtual environments
+.venv
+.env/
+venv/
+env/
+
+# Environment files
+.env
+.env.local
+.env.development
+.env.development.local
+.env.test
+.env.test.local
+.env.production
+.env.production.local
+.env.example.local
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+*.sublime-*
+
+# OS files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Logs
+*.log
+logs/
+app.log
+test.log
+*.log.*
+
+# Temporary files
+tmp/
+temp/
+*.tmp
+*.temp
+
+# Cache
+.cache/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Security & Credentials
+*.key
+*.pem
+*.p12
+*.crt
+*.p8
+*.jks
+secrets/
+credentials/
+gcp-oauth.keys.json
+google-oauth.keys.json
+oauth-credentials.json
+service-account.json
+
+# Database
+*.db
+*.sqlite
+*.sqlite3
+*.db-journal
+
+# Agent data
+agent_data/
+sessions/
+*.session
+*.state
+agent_states/
+
+# MCP data
+.mcp/
+mcp-cache/
+
+# A2A protocol data
+.a2a/
+a2a-cache/
+
+# Healthcare & FHIR specific
+fhir-data/
+patient-data/
+medical-records/
+*.fhir
+*.hl7
+*.cda
+
+# Protected Health Information (PHI)
+phi/
+*.phi
+patient-*.json
+patient-*.xml
+medical-*.json
+medical-*.xml
+clinical-*.json
+clinical-*.xml
+
+# Test data with real information
+test-data/
+sample-data/
+mock-data/
+
+# Configuration files that might contain sensitive data
+config.local.py
+settings.local.py
+local_settings.py
+database.conf
+connection.conf
+
+# Backup files
+*.bak
+*.backup
+*.old
+*~
+.#*
+
+# Runtime files
+*.pid
+*.sock
+*.port
+
+# Documentation with sensitive info
+docs/private/
+docs/internal/
+*.private.md
+*.internal.md
+
+# AI/ML models
+models/
+*.model
+*.pkl
+*.h5
+*.onnx
+
+# Jupyter notebooks
+.ipynb_checkpoints/
+
+# Coverage reports
+htmlcov/
+.coverage
+*.cover
+*.py,cover
+.hypothesis/
+
+# Distribution / packaging
+.Python
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+pip-wheel-metadata/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# PyInstaller
+*.manifest
+*.spec
+
+# Installer logs
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Unit test / coverage reports
+htmlcov/
+.tox/
+.nox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+*.py,cover
+.hypothesis/
+.pytest_cache/
+
+# Translations
+*.mo
+*.pot
+
+# Django stuff:
+*.log
+local_settings.py
+db.sqlite3
+db.sqlite3-journal
+
+# Flask stuff:
+instance/
+.webassets-cache
+
+# Scrapy stuff:
+.scrapy
+
+# Sphinx documentation
+docs/_build/
+
+# PyBuilder
+target/
+
+# IPython
+profile_default/
+ipython_config.py
+
+# pyenv
+.python-version
+
+# pipenv
+Pipfile.lock
+
+# PEP 582
+__pypackages__/
+
+# Celery
+celerybeat-schedule
+celerybeat.pid
+
+# SageMath parsed files
+*.sage.py
+
+# Environments
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+# Spyder project settings
+.spyderproject
+.spyproject
+
+# Rope project settings
+.ropeproject
+
+# mkdocs documentation
+/site
+
+# mypy
+.mypy_cache/
+.dmypy.json
+dmypy.json
+
+# Pyre type checker
+.pyre/
+
+# pytype static type analyzer
+.pytype/
+
+# Cython debug symbols
+cython_debug/
+
+# Project-specific
+app.log
+test.log
+test_delegation.py
+*.test.py
+backup/
+exports/
+
+# Development artifacts
+dev/
+local/
+personal/
+
+# System monitoring
+*.pid
+*.lock
+
+# Cloud credentials (if any)
+aws-credentials.json
+azure-credentials.json
+cloud-config.json
+gcp-credentials.json
+firebase-credentials.json
+
+# Docker
+docker-compose.override.yml
+.env.docker
+
+# Node.js (for MCP servers)
+node_modules/
+package-lock.json
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Editor directories and files
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+.idea
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
