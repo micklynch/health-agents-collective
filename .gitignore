@@ -6,6 +6,9 @@ dist/
 wheels/
 *.egg-info
 
+# Code assistants
+.claude
+
 # Virtual environments
 .venv
 .env/
