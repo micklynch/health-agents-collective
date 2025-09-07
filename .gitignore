@@ -9,6 +9,9 @@ wheels/
 # Coding assistants
 .claude/
 
+# Documentation files
+Agent2Agent_Protocol.md
+
 # Virtual environments
 .venv
 .env/
