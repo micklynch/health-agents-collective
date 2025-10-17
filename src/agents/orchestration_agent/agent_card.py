@@ -6,4 +6,4 @@ class OrchestrationAgentCard:
     description: str = "Orchestration Agent"
     skills: list[AgentSkill] = []
     organization: str = "Orchestration Agent"
-    url: str = "http://localhost:10020"
+    url: str = "http://localhost:10024"

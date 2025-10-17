@@ -10,4 +10,4 @@ class TriageAgentCard:
     description: str = "Triage Agent"
     skills: list[AgentSkill] = []
     organization: str = "Triage Agent"
-    url: str = "http://localhost:10019"
+    url: str = "http://localhost:10020"
