@@ -28,19 +28,19 @@ Health Agents Collective implements a privacy-first, multi-agent assistant syste
 ```mermaid
 graph TB
     User[👤 User] -->|"Natural Language Query"| Orchestration[🏗️ Orchestration Agent<br/>Port: 10024]
-    
+
     Orchestration -->|"1. Discover Agents"| Registry[📋 Agent Registry]
     Registry -->|"Agent Capabilities"| Orchestration
-    
+
     Orchestration -->|"2. Delegate Task"| Triage[🏥 Triage Agent<br/>Port: 10020]
     Orchestration -->|"3. Delegate Task"| FHIR[📊 FHIR Agent<br/>Port: 10028]
-    
+
     Triage -->|"Patient Assessment"| TriageResponse[📋 Triage Results]
     FHIR -->|"Clinical Data"| FHIRResponse[📊 FHIR Data]
-    
+
     TriageResponse -->|"Results"| Orchestration
     FHIRResponse -->|"Results"| Orchestration
-    
+
     Orchestration -->|"4. Synthesize Response"| UserResponse[💬 Final Answer]
     UserResponse -->|"Response"| User
 ```
@@ -54,21 +54,21 @@ sequenceDiagram
     participant Registry
     participant Triage
     participant FHIR
-    
+
     User->>Orchestration: "Patient has chest pain"
     Orchestration->>Registry: list_remote_agents()
     Registry-->>Orchestration: Available agents info
-    
+
     alt Symptom Assessment Needed
         Orchestration->>Triage: create_task("Assess chest pain symptoms")
         Triage-->>Orchestration: Triage assessment results
     end
-    
+
     alt Patient Data Needed
         Orchestration->>FHIR: create_task("Find patient history")
         FHIR-->>Orchestration: Patient clinical data
     end
-    
+
     Orchestration-->>User: Combined assessment and recommendations
 ```
 
@@ -131,7 +131,7 @@ python app.py
 # Triage Agent only
 uvicorn src.agents.triage_agent.agent:app --port 8080 --reload
 
-# FHIR Agent only  
+# FHIR Agent only
 uvicorn src.agents.fhir_agent.agent:app --port 8081 --reload
 ```
 
@@ -201,6 +201,13 @@ Follow the pattern in `CLAUDE.md` to create new specialized agents:
 ### Code Quality
 
 ```bash
+# Install git hooks locally
+uv tool install pre-commit
+pre-commit install
+
+# Run the hook suite on demand
+pre-commit run --all-files
+
 # Format and check code
 uv run ruff format .
 uv run ruff check .
@@ -213,7 +220,7 @@ uv run pytest
 
 ### Agent Ports
 - **Triage Agent**: 10020
-- **FHIR Agent**: 10028  
+- **FHIR Agent**: 10028
 - **Orchestration Agent**: 10024
 
 ### FHIR Server
