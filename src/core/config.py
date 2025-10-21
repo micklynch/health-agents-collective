@@ -7,6 +7,7 @@ import os
 from typing import Optional
 
 from dotenv import load_dotenv
+from pydantic import Field
 from pydantic_settings import BaseSettings
 
 # Load .env files. A .env.local file can be used to override variables for local development.
@@ -18,12 +19,19 @@ class Settings(BaseSettings):
     """Application settings loaded from environment variables."""
 
     # FHIR Server Configuration
-    fhir_base_url: str = "http://192.168.68.211:8080/fhir"
+    fhir_base_url: str = Field(
+        default_factory=lambda: os.getenv("FHIR_BASE_URL", "https://r4.smarthealthit.org")
+    )
     fhir_version: str = "R4"
 
     # Agent Configuration
     agent_name: str = "health-agents-collective"
     agent_version: str = "1.0.0"
+
+    # Agent Endpoint Configuration
+    triage_agent_url: str = "http://localhost:10020"
+    fhir_agent_url: str = "http://localhost:10028"
+    orchestration_agent_url: str = "http://localhost:10024"
 
     # A2A Protocol Configuration
     a2a_enabled: bool = True
@@ -49,6 +57,9 @@ class Settings(BaseSettings):
     # Open Router Configuration
     open_router_api_key: Optional[str] = None
     open_router_base_url: Optional[str] = None
+    open_router_model: str = Field(
+        default_factory=lambda: os.getenv("OPENROUTER_MODEL", "openai/gpt-4o-mini")
+    )
 
     class Config:
         # .env files are loaded using python-dotenv

@@ -17,8 +17,8 @@ load_dotenv(override=True)
 
 # Configure the AI model
 model = OpenAIModel(
-    'google/gemini-2.5-flash',
-    provider=OpenRouterProvider(api_key=settings.open_router_api_key),
+   settings.open_router_model,
+   provider=OpenRouterProvider(api_key=settings.open_router_api_key),
 )
 
 # Create the Triage agent with MCP server integration

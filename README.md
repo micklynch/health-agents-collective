@@ -92,6 +92,8 @@ cd health-agents-collective
 uv sync
 # OR with pip:
 pip install -e .
+# Activate the virtual environment
+source .venv/bin/activate
 
 # 3. Configure environment
 cp .env.example .env

@@ -9,7 +9,7 @@ load_dotenv(override=True)
 
 # Configure the AI model
 model = OpenAIModel(
-    'google/gemini-2.5-flash',
+    settings.open_router_model,
     provider=OpenRouterProvider(api_key=settings.open_router_api_key),
 )
 
@@ -34,7 +34,7 @@ Capabilities:
 6. Use the provided MCP tools to interact with the FHIR server
 7. Always validate responses against FHIR R4 schemas
 
-FHIR Endpoint: http://192.168.68.211:8080/fhir
+FHIR Endpoint: https://r4.smarthealthit.org
 FHIR Version: R4
 
 Follow HL7 FHIR resource schemas exactly and ensure all responses are valid JSON conforming to FHIR R4.

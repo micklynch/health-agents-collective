@@ -4,6 +4,7 @@ from typing import Any
 
 import httpx
 import requests
+from src.core.config import settings
 
 # ---------- Logfire instrumentation ----------
 # Try to import Logfire if available. We wrap this in a try/except so that the
@@ -76,6 +77,7 @@ class A2AToolClient:
         self._agent_info_cache: dict[str, dict[str, Any] | None] = {}
         # Default timeout for requests (in seconds)
         self.default_timeout = default_timeout
+        self._debug_enabled = settings.log_level.lower() in {"debug", "trace"}
 
     def _normalize_url(self, url: str) -> str:
         """Ensure the URL contains a scheme and has no trailing slash."""
@@ -92,6 +94,8 @@ class A2AToolClient:
         if normalized_url not in self._agent_info_cache:
             # Initialize with None to indicate metadata not yet fetched
             self._agent_info_cache[normalized_url] = None
+            if self._debug_enabled:
+                print(f"[A2A ToolClient] registered remote agent: {normalized_url}")
 
     @span("A2AToolClient.list_remote_agents")
     def list_remote_agents(self) -> list[dict[str, Any]]:
@@ -108,11 +112,17 @@ class A2AToolClient:
                 try:
                     # Fetch and cache agent info
                     agent_info = requests.get(
-                        f"{remote_connection}/.well-known/agent.json"
+                        f"{remote_connection}/.well-known/agent-card.json"
                     )
                     agent_data = agent_info.json()
                     self._agent_info_cache[remote_connection] = agent_data
                     remote_agents_info.append(agent_data)
+                    if self._debug_enabled:
+                        print(
+                            "[A2A ToolClient] fetched agent card",
+                            agent_data.get("name", remote_connection),
+                            agent_data.get("skills", []),
+                        )
                 except Exception as e:
                     print(f"Failed to fetch agent info from {remote_connection}: {e}")
 
@@ -146,9 +156,11 @@ class A2AToolClient:
             else:
                 # Fetch the agent card
                 agent_card_response = await httpx_client.get(
-                    f"{agent_url}/.well-known/agent.json"
+                    f"{agent_url}/.well-known/agent-card.json"
                 )
                 agent_card_data = agent_card_response.json()
+                if self._debug_enabled:
+                    print(f"[A2A ToolClient] fetched agent card for {agent_url}")
 
             # Create AgentCard from data
             agent_card = AgentCard(**agent_card_data)
@@ -170,6 +182,9 @@ class A2AToolClient:
                 id=str(uuid.uuid4()), params=MessageSendParams(**send_message_payload)
             )
 
+            if self._debug_enabled:
+                print(f"[A2A ToolClient] -> {agent_url}: {message}")
+
             # Send the message with timeout configuration
             response = await client.send_message(request)
 
@@ -190,6 +205,12 @@ class A2AToolClient:
                     # Ensure artifacts are properly formatted
                     if "artifacts" not in result_data:
                         result_data["artifacts"] = []
+
+                    if self._debug_enabled:
+                        status_val = result_data.get("status")
+                        print(
+                            f"[A2A ToolClient] <- {agent_url}: status={status_val}, artifacts={len(result_data.get('artifacts', []))}"
+                        )
                     
                     return TaskResponse(**result_data)
                 else:
