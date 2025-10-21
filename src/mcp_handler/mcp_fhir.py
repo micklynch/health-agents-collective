@@ -5,17 +5,23 @@ This module provides the MCP server configuration for connecting to FHIR servers
 """
 
 import os
+import sys
 from pydantic_ai.mcp import MCPServerStdio
 
-# Get FHIR server URL from environment variable
-fhir_server_url = os.getenv("FHIR_SERVER_URL", "http://192.168.68.211:8080/fhir")
+# Pull the FHIR endpoint from configuration, honoring either the legacy
+# FHIR_SERVER_URL or the newer FHIR_BASE_URL used in .env.
+fhir_server_url = (
+    os.getenv("FHIR_SERVER_URL")
+    or os.getenv("FHIR_BASE_URL")
+    or "https://r4.smarthealthit.org"
+)
 
-# Create MCP server for FHIR
+# Create MCP server for FHIR using the real launcher module.
 server = MCPServerStdio(
-    command="python",
-    args=["-m", "fhir_mcp_server"],
+    command=sys.executable,
+    args=["-m", "src.mcp_handler.fhir_mcp_main"],
     env={
-        "FHIR_SERVER_URL": fhir_server_url,
-        "FHIR_VERSION": "R4"
-    }
+        "FHIR_SERVER_URL": fhir_server_url.rstrip("/"),
+        "FHIR_VERSION": os.getenv("FHIR_VERSION", "R4"),
+    },
 )

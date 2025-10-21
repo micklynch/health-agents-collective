@@ -3,6 +3,8 @@ import threading
 
 import uvicorn
 
+from src.core.config import settings
+
 from a2a.server.apps import A2AStarletteApplication
 from a2a.server.request_handlers import DefaultRequestHandler
 from a2a.server.tasks import InMemoryTaskStore
@@ -72,8 +74,16 @@ async def run_uvicorn_server(create_agent_function, port):
     try:
         print(f"🚀 Starting agent on port {port}...")
         app = create_agent_function(port=port)
+        log_level = settings.log_level.lower()
+        # Enable access logs automatically for debug-level runs so request flow is easier to trace.
+        enable_access_log = log_level in {"debug", "trace"}
         config = uvicorn.Config(
-            app.build(), host="127.0.0.1", port=port, log_level="error", loop="asyncio"
+            app.build(),
+            host="127.0.0.1",
+            port=port,
+            log_level=log_level,
+            loop="asyncio",
+            access_log=enable_access_log,
         )
         server = uvicorn.Server(config)
         servers.append(server)

@@ -8,6 +8,7 @@ from google.adk.artifacts import InMemoryArtifactService
 from google.adk.memory.in_memory_memory_service import InMemoryMemoryService
 from google.adk.runners import Runner
 from google.adk.sessions import InMemorySessionService
+from src.core.config import settings
 
 
 class PydanticAgentExecutor(AgentExecutor):
@@ -34,6 +35,7 @@ class PydanticAgentExecutor(AgentExecutor):
             session_service=InMemorySessionService(),
             memory_service=InMemoryMemoryService(),
         )
+        self._debug_enabled = settings.log_level.lower() in {"debug", "trace"}
 
     async def cancel(self, task_id: str) -> None:
         """Cancel the execution of a specific task."""
@@ -51,14 +53,20 @@ class PydanticAgentExecutor(AgentExecutor):
             )
             # Directly invoke the pydantic agent
             async with self.agent.run_mcp_servers():
+                if self._debug_enabled:
+                    print(f"[{self.agent.name}] received query: {query}")
                 result = await self.agent.run(query)
             # Extract string output from result if needed
             response_text = result.output if hasattr(result, "output") else result
+            if self._debug_enabled:
+                print(f"[{self.agent.name}] response: {response_text}")
             await updater.add_artifact(
                 [Part(root=TextPart(text=response_text))], name=self.artifact_name
             )
             await updater.complete()
         except Exception as e:
+            if self._debug_enabled:
+                print(f"[{self.agent.name}] error: {e!s}")
             await updater.update_status(
                 TaskState.failed,
                 new_agent_text_message(f"Error: {e!s}", task.context_id, task.id),

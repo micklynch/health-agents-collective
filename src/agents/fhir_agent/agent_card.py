@@ -18,6 +18,12 @@ FHIRAgentCard = AgentCard(
         ),
         AgentSkill(
             id=str(uuid.uuid4()),
+            name="Find Patients by Condition",
+            description="Discover patients by clinical condition, problem list entry, or other coded criteria.",
+            tags=["search", "conditions"]
+        ),
+        AgentSkill(
+            id=str(uuid.uuid4()),
             name="Write Clinical Data",
             description="Write new resources such as Diagnoses, Observations, or Test Results into FHIR.",
             tags=[]
