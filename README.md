@@ -111,9 +111,11 @@ Create a `.env` file with:
 # LLM provider (choose one)
 OPENROUTER_API_KEY=your-openrouter-api-key
 # or OPENAI_API_KEY=your-openai-api-key
+OPENROUTER_MODEL=openai/gpt-4o-mini
 
 # FHIR Server Configuration
 FHIR_SERVER_URL=http://your-fhir-server:8080/fhir
+FHIR_HTTP_TIMEOUT=15
 
 # Optional - Logfire for observability
 LOGFIRE_TOKEN=your-logfire-token
@@ -121,12 +123,16 @@ LOGFIRE_PROJECT_NAME=healthcare-agents-collective
 LOGFIRE_ENVIRONMENT=development
 ```
 
+> The FHIR condition-search planner depends on an OpenAI-compatible API key (`OPENROUTER_API_KEY`, `OPENAI_API_KEY`, etc.). Without it the system falls back to a heuristic search plan, which may return fewer matches.
+
 ## 🏃‍♂️ Running the System
 
 ### Start All Agents
 ```bash
 python app.py
 ```
+
+> Ensure your shell session has sourced `.env` (for example `source .env`) before launching; otherwise the FHIR agent will skip the LLM planner and condition lookups may fail to find matches.
 
 ### Run Individual Agents
 ```bash
