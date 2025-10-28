@@ -143,6 +143,8 @@ uvicorn src.agents.triage_agent.agent:app --port 8080 --reload
 uvicorn src.agents.fhir_agent.agent:app --port 8081 --reload
 ```
 
+You can then go visit the individual agent at the Uvicorn address plus `/docs`.
+
 ### Interactive Mode
 Once running, you'll see:
 ```
