@@ -22,13 +22,13 @@ model = OpenAIModel(
 )
 
 # Create the Triage agent with MCP server integration
-agent = Agent(
+triage_agent = Agent(
     model=model,
     name="triage_agent",
     mcp_servers=[server]
 )
 
-@agent.system_prompt
+@triage_agent.system_prompt
 def triage_agent_system_prompt(ctx: RunContext) -> str:
     """System prompt for Triage agent."""
     return """You are a triage nurse agent that helps collect patient information and symptoms. 
@@ -85,4 +85,4 @@ Always maintain patient privacy and be culturally sensitive.
 #         return result.output
 
 
-app = agent.to_a2a()
+app = triage_agent.to_a2a()

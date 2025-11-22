@@ -8,11 +8,11 @@ from src.agents.fhir_agent.search_planner import (
     plan_condition_search,
 )
 
-DEFAULT_TIMEOUT = float(os.getenv("FHIR_HTTP_TIMEOUT", "15"))
+from src.core.config import settings
 
-FHIR_SERVER_URL = os.getenv("FHIR_SERVER_URL", "").strip()
-if not FHIR_SERVER_URL:
-    raise ValueError("FHIR_SERVER_URL environment variable is not set by the MCP launcher.")
+DEFAULT_TIMEOUT = settings.fhir_http_timeout
+
+FHIR_SERVER_URL = settings.fhir_base_url.strip()
 
 # Initialize local MCP server instance
 mcp = FastMCP("FHIR-MCP")
