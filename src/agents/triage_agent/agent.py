@@ -11,6 +11,9 @@ from dotenv import load_dotenv
 import logfire
 from src.core.config import settings
 
+logfire.configure()
+logfire.instrument_pydantic_ai()
+
 load_dotenv(override=True)
 
 

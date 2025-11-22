@@ -5,6 +5,9 @@ from typing import Optional, List, Dict, Any
 from mcp.server.fastmcp import FastMCP
 
 from src.core.config import settings
+import logfire
+
+logfire.configure()
 
 # Initialize FastMCP server
 mcp = FastMCP("Triage-MCP")
