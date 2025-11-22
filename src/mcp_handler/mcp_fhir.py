@@ -8,13 +8,10 @@ import os
 import sys
 from pydantic_ai.mcp import MCPServerStdio
 
-# Pull the FHIR endpoint from configuration, honoring either the legacy
-# FHIR_SERVER_URL or the newer FHIR_BASE_URL used in .env.
-fhir_server_url = (
-    os.getenv("FHIR_SERVER_URL")
-    or os.getenv("FHIR_BASE_URL")
-    or "https://r4.smarthealthit.org"
-)
+from src.core.config import settings
+
+# Pull the FHIR endpoint from configuration
+fhir_server_url = settings.fhir_base_url
 
 # Create MCP server for FHIR using the real launcher module.
 server = MCPServerStdio(

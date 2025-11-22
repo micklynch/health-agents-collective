@@ -20,9 +20,12 @@ class Settings(BaseSettings):
 
     # FHIR Server Configuration
     fhir_base_url: str = Field(
-        default_factory=lambda: os.getenv("FHIR_BASE_URL", "https://r4.smarthealthit.org")
+        default_factory=lambda: os.getenv("FHIR_SERVER_URL") or os.getenv("FHIR_BASE_URL") or "https://r4.smarthealthit.org"
     )
     fhir_version: str = "R4"
+    fhir_http_timeout: float = Field(
+        default_factory=lambda: float(os.getenv("FHIR_HTTP_TIMEOUT", "15"))
+    )
 
     # Agent Configuration
     agent_name: str = "health-agents-collective"
