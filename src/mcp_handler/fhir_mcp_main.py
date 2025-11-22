@@ -9,6 +9,10 @@ from src.agents.fhir_agent.search_planner import (
 )
 
 from src.core.config import settings
+import logfire
+
+logfire.configure()
+logfire.instrument_pydantic_ai()
 
 DEFAULT_TIMEOUT = settings.fhir_http_timeout
 
