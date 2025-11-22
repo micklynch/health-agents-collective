@@ -4,6 +4,12 @@
 
 A multi-agent healthcare AI system featuring triage nurse functionality with FHIR integration and orchestration capabilities. Built using Google's A2A (Agent-to-Agent) protocol and Pydantic AI framework.
 
+## 📺 Watch the Demo
+
+<a href="https://youtu.be/lq19K59VTV8" target="_blank">
+  <img src="images/thac-yt-cover.png" alt="Watch the Health Agents Collective Demo" width="400" />
+</a>
+
 ## 🎯 Overview
 
 Health Agents Collective implements a multi-agent assistant system specifically designed for healthcare applications. Each capability is implemented by an autonomous agent that exposes its skills through an HTTP interface using the A2A SDK. A lightweight orchestration agent receives user prompts, discovers available agents at runtime, and chains their tools to generate comprehensive healthcare responses.
