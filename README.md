@@ -24,9 +24,11 @@ graph TB
     
     Orchestration -->|"Delegate Task"| Triage[🏥 Triage Agent<br/>Port: 10020]
     Orchestration -->|"Delegate Task"| FHIR[📊 FHIR Agent<br/>Port: 10028]
+    Orchestration -->|"Delegate Task"| Finance[💰 Finance Agent<br/>Port: 10030]
     
     Triage -->|"Assessment Results"| Orchestration
     FHIR -->|"Clinical Data"| Orchestration
+    Finance -->|"Claims & Remittance"| Orchestration
     
     Orchestration -->|"Synthesized Response"| User
 ```
@@ -122,6 +124,9 @@ uvicorn src.agents.triage_agent.agent:app --port 10020 --reload
 # FHIR Agent (Port 10028)
 uvicorn src.agents.fhir_agent.agent:app --port 10028 --reload
 
+# Finance Agent (Port 10030)
+uvicorn src.agents.finance_agent.agent:app --port 10030 --reload
+
 # Orchestration Agent (Port 10024)
 uvicorn src.agents.orchestration_agent.agent:app --port 10024 --reload
 ```
@@ -132,6 +137,19 @@ uvicorn src.agents.orchestration_agent.agent:app --port 10024 --reload
 * **Triage Agent**: 10020
 * **FHIR Agent**: 10028
 * **Orchestration Agent**: 10024
+* **Finance Agent**: 10030
+
+### Finance / Revenue Cycle (US)
+The Finance Agent handles medical coding (CPT/HCPCS/ICD-10), EDI X12 claim
+submission (837P), claim status (276/277), remittance (835), denial
+management, appeals, and payer correspondence. Without a configured
+clearinghouse it runs in a sandbox mode that simulates acceptance and
+adjudication. To connect a real clearinghouse, configure in `.env`:
+```bash
+FINANCE_CLEARINGHOUSE_URL=https://your-clearinghouse.example.com
+FINANCE_EDI_SENDER_ID=YOURSUBMITTERID
+FINANCE_EDI_RECEIVER_ID=CLEARINGHOUSEID
+```
 
 ### FHIR Server
 The system defaults to a public test server. Configure your own in `.env`:

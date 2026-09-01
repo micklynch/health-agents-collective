@@ -35,6 +35,18 @@ class Settings(BaseSettings):
     triage_agent_url: str = "http://localhost:10020"
     fhir_agent_url: str = "http://localhost:10028"
     orchestration_agent_url: str = "http://localhost:10024"
+    finance_agent_url: str = "http://localhost:10030"
+
+    # Finance / Revenue Cycle Configuration
+    finance_clearinghouse_url: Optional[str] = Field(
+        default_factory=lambda: os.getenv("FINANCE_CLEARINGHOUSE_URL") or None
+    )
+    finance_edi_sender_id: str = Field(
+        default_factory=lambda: os.getenv("FINANCE_EDI_SENDER_ID", "HACSUBMITTER")
+    )
+    finance_edi_receiver_id: str = Field(
+        default_factory=lambda: os.getenv("FINANCE_EDI_RECEIVER_ID", "CLEARINGHOUSE")
+    )
 
     # A2A Protocol Configuration
     a2a_enabled: bool = True
