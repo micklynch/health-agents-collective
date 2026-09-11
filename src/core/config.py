@@ -31,6 +31,11 @@ class Settings(BaseSettings):
     agent_name: str = "health-agents-collective"
     agent_version: str = "1.0.0"
 
+    # Bind host for the agent servers. Use 0.0.0.0 to expose on the LAN.
+    agent_bind_host: str = Field(
+        default_factory=lambda: os.getenv("AGENT_BIND_HOST", "127.0.0.1")
+    )
+
     # Agent Endpoint Configuration
     triage_agent_url: str = "http://localhost:10020"
     fhir_agent_url: str = "http://localhost:10028"
