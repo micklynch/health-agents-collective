@@ -25,7 +25,7 @@ model = OpenAIModel(
 a2a_client = A2AToolClient()
 
 # Register known remote agents so list_remote_agents reflects the running services
-for remote_agent_url in (settings.triage_agent_url, settings.fhir_agent_url):
+for remote_agent_url in (settings.triage_agent_url, settings.fhir_agent_url, settings.finance_agent_url):
     if remote_agent_url:
         a2a_client.add_remote_agent(remote_agent_url)
 
@@ -47,11 +47,13 @@ def orchestration_agent_system_prompt(ctx: RunContext) -> str:
 **Available Agents:**
 - **FHIR Agent (port 10028)**: Handles patient data retrieval and clinical records
 - **Triage Agent (port 10020)**: Manages patient registration, symptom assessment, and triage
+- **Finance Agent (port 10030)**: Handles medical coding (CPT/HCPCS/ICD-10), EDI claim submissions (837P), claim status and remittance (276/277/835), denials, appeals, and payer correspondence
 - **Orchestration Agent (you)**: Coordinates workflows and manages agent communication
 
 **Delegation Rules:**
 - For any patient lookup, chart review, or condition-based search: call the **FHIR Agent** (`http://localhost:10028`).
 - For symptom assessment or initial intake: call the **Triage Agent** (`http://localhost:10020`).
+- For medical coding, claim submission, billing questions, denials, appeals, or anything involving insurance companies and payments: call the **Finance Agent** (`http://localhost:10030`).
 - When in doubt, prefer delegating and include each agent's response in your final answer.
 
 **How to delegate:**

@@ -79,7 +79,7 @@ async def run_uvicorn_server(create_agent_function, port):
         enable_access_log = log_level in {"debug", "trace"}
         config = uvicorn.Config(
             app.build(),
-            host="127.0.0.1",
+            host=settings.agent_bind_host,
             port=port,
             log_level=log_level,
             loop="asyncio",

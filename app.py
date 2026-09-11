@@ -47,6 +47,10 @@ from src.agents.triage_agent import (
 )
 from src.agents.fhir_agent.agent import fhir_agent
 from src.agents.fhir_agent.agent_card import FHIRAgentCard
+from src.agents.finance_agent import (
+    finance_agent,
+    FinanceAgentCard,
+)
 from src.agents.common.tool_client import A2AToolClient
 from src.agents.common.agent import run_agent_in_background
 from src.agents.common.server import create_agent_a2a_server
@@ -99,6 +103,19 @@ def create_fhir_agent_server(host="localhost", port=10028) -> A2AStarletteApplic
         artifact_name="response",
     )
 
+def create_finance_agent_server(host="localhost", port=10030) -> A2AStarletteApplication:
+    """Create A2A server for Finance Agent using the unified wrapper."""
+    return create_agent_a2a_server(
+        agent=finance_agent,
+        name=FinanceAgentCard.name,
+        description=FinanceAgentCard.description,
+        skills=FinanceAgentCard.skills,
+        host=host,
+        port=port,
+        status_message="Processing revenue cycle request...",
+        artifact_name="response",
+    )
+
 agents: list[Dict[str, Callable[[str, int], A2AStarletteApplication]]] = [
     {
         "name": "Triage Agent",
@@ -109,6 +126,11 @@ agents: list[Dict[str, Callable[[str, int], A2AStarletteApplication]]] = [
         "name": "FHIR Agent",
         "agent": create_fhir_agent_server,
         "port": 10028,
+    },
+    {
+        "name": "Finance Agent",
+        "agent": create_finance_agent_server,
+        "port": 10030,
     },
     {
         "name": "Orchestration Agent",
@@ -159,6 +181,7 @@ def interactive_mode_sync():
     print("Available agents:")
     print("  ✅ Triage Agent (port 10020) - Patient assessment and symptom evaluation")
     print("  ✅ FHIR Agent (port 10028) - Patient data retrieval and clinical records")
+    print("  ✅ Finance Agent (port 10030) - Medical coding, claims, denials, and payer correspondence")
     print("  ✅ Orchestration Agent (port 10024) - Master coordinator for agent delegation")
     print("\nType your questions or requests below. Enter '/quit' to exit.\n")
     
